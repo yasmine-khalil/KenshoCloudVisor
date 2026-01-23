@@ -56,10 +56,16 @@ variable "ingress_rules" {
 }
 
 
-variable "target_group_port" {
-  description = "Port for the target group"
+variable "frontend_port" {
+  description = "Port for the frontend target group"
   type        = number
-  default     = 8000
+  default     = 80
+}
+
+variable "backend_port" {
+  description = "Port for the backend target group"
+  type        = number
+  default     = 3000
 }
 
 variable "target_group_protocol" {

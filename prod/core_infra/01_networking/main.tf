@@ -61,19 +61,11 @@ module "waf_cloudfront" {
   }
 }
 
-# module "cloudfront" {
+module "cloudfront" {
 
-#   source                           = "../../../modules/cloudfront"
-#   env                              = var.env
-#   project                          = var.project
-#   s3_custom_domain_name            = var.s3_domain_name
-#   alb_custom_domain_name           = var.alb_domain_name
-#   acm_certificate_arn              = module.acm[0].us_east_1_certificate_arn
-#   alb_domain_name                  = module.alb.alb_dns_name
-#   alb_arn                          = module.alb.alb_arn
-#   vpc_id                           = module.vpc.vpc_id
-#   s3_bucket_domain_name            = "${var.s3_bucket_name}.s3.${var.region}.amazonaws.com"
-#   s3_bucket_id                     = var.s3_bucket_name
-#   cloudfront_security_header_value = "${var.env}-${var.project}-security"
-#   web_acl_id                       = var.create_waf ? module.waf_cloudfront.web_acl_arn : null
-# }
+  source          = "../../../modules/cloudfront"
+  env             = var.env
+  project         = var.project
+  alb_domain_name = module.alb.alb_dns_name
+  web_acl_id      = var.create_waf ? module.waf_cloudfront.web_acl_arn : null
+}

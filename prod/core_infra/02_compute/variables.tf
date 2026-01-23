@@ -64,10 +64,16 @@ variable "desired_count" {
   default     = 1
 }
 
-variable "container_port" {
-  description = "Port on which the container listens"
+variable "frontend_port" {
+  description = "Port on which the frontend container listens"
   type        = number
-  default     = 8000
+  default     = 80
+}
+
+variable "backend_port" {
+  description = "Port on which the backend container listens"
+  type        = number
+  default     = 3000
 }
 
 variable "cpu" {

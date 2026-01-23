@@ -55,8 +55,8 @@ resource "aws_security_group" "alb_sg" {
 # Target Group
 ################################################################################
 resource "aws_lb_target_group" "tg" {
-  name        = "${var.env}-${var.project}-tg"
-  port        = var.target_group_port
+  name        = "${var.env}-${var.project}-frontend-tg"
+  port        = var.frontend_port
   protocol    = var.target_group_protocol
   vpc_id      = var.vpc_id
   target_type = "ip"
@@ -74,7 +74,34 @@ resource "aws_lb_target_group" "tg" {
   }
 
   tags = merge(var.tags, {
-    Name = "${var.env}-${var.project}-tg"
+    Name = "${var.env}-${var.project}-frontend-tg"
+  })
+}
+
+################################################################################
+# Target Group for Port 3000
+################################################################################
+resource "aws_lb_target_group" "tg_3000" {
+  name        = "${var.env}-${var.project}-backend-tg"
+  port        = var.backend_port
+  protocol    = "HTTP"
+  vpc_id      = var.vpc_id
+  target_type = "ip"
+
+  health_check {
+    enabled             = true
+    healthy_threshold   = var.health_check_healthy_threshold
+    interval            = var.health_check_interval
+    matcher             = var.health_check_matcher
+    path                = var.health_check_path
+    port                = "traffic-port"
+    protocol            = "HTTP"
+    timeout             = var.health_check_timeout
+    unhealthy_threshold = var.health_check_unhealthy_threshold
+  }
+
+  tags = merge(var.tags, {
+    Name = "${var.env}-${var.project}-backend-tg"
   })
 }
 
@@ -132,5 +159,23 @@ resource "aws_lb_listener" "https" {
 
   tags = merge(var.tags, {
     Name = "${var.env}-${var.project}-https-listener"
+  })
+}
+
+################################################################################
+# HTTP 3000 Listener
+################################################################################
+resource "aws_lb_listener" "http_3000" {
+  load_balancer_arn = aws_lb.alb.arn
+  port              = var.backend_port
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.tg_3000.arn
+  }
+
+  tags = merge(var.tags, {
+    Name = "${var.env}-${var.project}-http-3000-listener"
   })
 }

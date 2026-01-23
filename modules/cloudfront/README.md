@@ -49,7 +49,6 @@ SSL terminates on CloudFront. Internal ALB origin uses HTTP-only with security h
 | vpc_id | VPC ID where the internal ALB is located | string | - | Y |
 | s3_bucket_domain_name | S3 bucket regional domain name | string | - | Y |
 | s3_bucket_id | S3 bucket ID for OAC policy | string | - | Y |
-| cloudfront_security_header_value | Security header value to send to ALB | string | - | Y |
 | upload_path_pattern | Path pattern for uploaded images | string | /upload/* | N |
 | web_acl_id | WAF Web ACL ID to associate with distributions | string | null | N |
 | tags | A map of tags to use on all resources | map(string) | {} | N |
