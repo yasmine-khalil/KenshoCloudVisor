@@ -14,8 +14,8 @@ module "guard_duty" {
 }
 
 module "cloudtrail" {
-  source = "../../../modules/cloudtrail-s3"
-  env    = var.env
+  source  = "../../../modules/cloudtrail-s3"
+  env     = var.env
   project = var.project
 }
 

@@ -95,7 +95,7 @@ resource "aws_cloudfront_distribution" "s3" {
 # ALB CloudFront Distribution (Dynamic Content)
 # -------------------------
 resource "aws_cloudfront_distribution" "alb" {
-  enabled    = true
+  enabled = true
   #aliases    = [var.alb_custom_domain_name]
   comment    = "${var.env}-${var.project} ALB CloudFront Distribution"
   web_acl_id = var.web_acl_id

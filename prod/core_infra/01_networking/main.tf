@@ -24,7 +24,7 @@ module "alb" {
   project           = var.project
   internal          = false
   vpc_id            = module.vpc.vpc_id
-  subnet_ids        = [module.vpc.public_subnet_a_id , module.vpc.public_subnet_b_id]
+  subnet_ids        = [module.vpc.public_subnet_a_id, module.vpc.public_subnet_b_id]
   health_check_path = "/"
   ingress_rules = [
     {
