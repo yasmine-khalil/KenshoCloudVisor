@@ -71,8 +71,8 @@ output "ecs_monitoring_role_name" {
 output "service_task_roles" {
   description = "Map of service names to their task role ARNs for easy reference"
   value = {
-    frontend          = aws_iam_role.frontend_task_role.arn
-    backend           = aws_iam_role.backend_task_role.arn
+    frontend = aws_iam_role.frontend_task_role.arn
+    backend  = aws_iam_role.backend_task_role.arn
   }
 }
 

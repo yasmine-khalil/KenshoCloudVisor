@@ -72,7 +72,7 @@ resource "aws_ecs_service" "backend" {
     security_groups  = [aws_security_group.ecs_sg_backend.id]
     assign_public_ip = false
   }
-  
+
   load_balancer {
     target_group_arn = var.load_balancer_target_group_arn
     container_name   = "backend"

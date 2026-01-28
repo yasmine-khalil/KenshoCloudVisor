@@ -1,13 +1,13 @@
 data "terraform_remote_state" "networking" {
-  backend = "s3" 
+  backend = "s3"
 
   config = {
     # Replace these with the actual values used in 01_networking's backend config
-    bucket         = "terraform-state-207933152498-eu-west-1"
-    key            = "prod/core_infra/01_networking.tfstate"
-    region         = "eu-west-1"
-    dynamodb_table = "terraform-state-lock"
-    encrypt        = true
+    bucket       = "terraform-state-207933152498-eu-west-1"
+    key          = "prod/core_infra/01_networking.tfstate"
+    region       = "eu-west-1"
+    use_lockfile = true
+    encrypt      = true
   }
 }
 
@@ -25,10 +25,10 @@ module "ecs_cluster" {
 module "ecs_iam_roles" {
   source = "../../../modules/ecs-iam-roles"
 
-  env     = var.env
-  project = var.project
-  frontend_s3_resources  = var.frontend_s3_resources
-  backend_s3_resources   = var.backend_s3_resources
+  env                       = var.env
+  project                   = var.project
+  frontend_s3_resources     = var.frontend_s3_resources
+  backend_s3_resources      = var.backend_s3_resources
   enable_container_insights = var.enable_container_insights
 
   tags = var.tags
@@ -55,7 +55,7 @@ module "backend-service" {
   log_retention_days             = var.backend_log_retention_days
   load_balancer_target_group_arn = data.terraform_remote_state.networking.outputs.backend_target_group_arn
 
-  tags                           = var.tags
+  tags = var.tags
 }
 
 module "frontend-service" {
@@ -78,5 +78,5 @@ module "frontend-service" {
   log_retention_days             = var.frontend_log_retention_days
   load_balancer_target_group_arn = data.terraform_remote_state.networking.outputs.frontend_target_group_arn
 
-  tags                           = var.tags
+  tags = var.tags
 }
