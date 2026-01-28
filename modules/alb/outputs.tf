@@ -13,9 +13,14 @@ output "alb_zone_id" {
   value       = aws_lb.alb.zone_id
 }
 
-output "target_group_arn" {
-  description = "ARN of the target group"
+output "frontend_target_group_arn" {
+  description = "ARN of the target group of the frontend service"
   value       = aws_lb_target_group.tg.arn
+}
+
+output "backend_target_group_arn" {
+  description = "ARN of the target group of the backend service"
+  value       = aws_lb_target_group.tg_3000.arn
 }
 
 output "security_group_id" {
