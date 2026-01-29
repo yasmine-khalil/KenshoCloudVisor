@@ -1,34 +1,30 @@
-# Regional certificate
-resource "aws_acm_certificate" "regional" {
-  count = var.create_regional_cert ? 1 : 0
+# ALB certificate
+resource "aws_acm_certificate" "alb_certificate" {
 
-  domain_name               = var.domain_names[0]
-  subject_alternative_names = length(var.domain_names) > 1 ? slice(var.domain_names, 1, length(var.domain_names)) : []
+  domain_name               = var.alb_certificate_domain_name
   validation_method         = "DNS"
 
   lifecycle {
     create_before_destroy = true
   }
 
-  tags = {
-    Name = "${var.env}-${var.project}-regional-cert"
-  }
+  tags = merge(var.tags, {
+    Name = "${var.env}-${var.project}-alb-cert"
+  })  
 }
 
-# US East 1 certificate (conditional)
-resource "aws_acm_certificate" "us_east_1" {
-  count = var.create_us_east_1_cert ? 1 : 0
+# US East 1 certificate
+resource "aws_acm_certificate" "cloudfront_certificate" {
 
   provider                  = aws.us_east_1
-  domain_name               = var.domain_names[0]
-  subject_alternative_names = length(var.domain_names) > 1 ? slice(var.domain_names, 1, length(var.domain_names)) : []
+  domain_name               = var.cloudfront_certificate_domain_name
   validation_method         = "DNS"
 
   lifecycle {
     create_before_destroy = true
   }
 
-  tags = {
-    Name = "${var.env}-${var.project}-us-east-1-cert"
-  }
+  tags = merge(var.tags, {
+    Name = "${var.env}-${var.project}-cloudfront-cert"
+  })    
 }

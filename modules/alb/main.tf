@@ -144,8 +144,6 @@ resource "aws_lb_listener" "http" {
 # HTTPS Listener (only if certificate provided)
 ################################################################################
 resource "aws_lb_listener" "https" {
-  count = var.certificate_arn != null ? 1 : 0
-
   load_balancer_arn = aws_lb.alb.arn
   port              = "443"
   protocol          = "HTTPS"

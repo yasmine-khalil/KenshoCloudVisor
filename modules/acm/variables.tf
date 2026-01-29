@@ -33,24 +33,25 @@ variable "region" {
   description = "AWS region for regional certificate"
 }
 
-variable "domain_names" {
-  type        = list(string)
-  description = "List of FQDNs for SSL certificate"
+variable "cloudfront_certificate_domain_name" {
+  type        = string
+  description = "Domain name to create certificate in us-east-1 region (required for CloudFront)"
+}
+
+variable "alb_certificate_domain_name" {
+  type        = string
+  description = "Domain name to create certificate in specific region"
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "Additional tags to apply to all IAM resources"
+  default     = {}
 
   validation {
-    condition     = length(var.domain_names) > 0
-    error_message = "At least one domain name must be provided"
+    condition = alltrue([
+      for k, v in var.tags : can(regex("^[a-zA-Z0-9\\s\\-_.:/@]+$", k)) && can(regex("^[a-zA-Z0-9\\s\\-_.:/@]*$", v))
+    ])
+    error_message = "Tags must contain only alphanumeric characters, spaces, and the following special characters: - _ . : / @"
   }
-}
-
-variable "create_us_east_1_cert" {
-  type        = bool
-  description = "Whether to create certificate in us-east-1 region (required for CloudFront)"
-  default     = false
-}
-
-variable "create_regional_cert" {
-  type        = bool
-  description = "Whether to create certificate in specific region"
-  default     = false
 }
